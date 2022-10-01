@@ -9,6 +9,12 @@ import {
 } from 'fastify'
 import { TypeCompiler } from '@sinclair/typebox/compiler'
 import { Static, TSchema } from '@sinclair/typebox'
+import { Format } from '@sinclair/typebox/format'
+
+/**
+ * Enables TypeBox user defined formats for strings
+ */
+export { Format }
 
 /**
  * Enables TypeBox schema validation

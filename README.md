@@ -126,3 +126,31 @@ fastify.withTypeProvider<TypeBoxTypeProvider>().get('/', {
 ```
 
 For additional information on this compiler, please refer to the TypeBox documentation located [here](https://github.com/sinclairzx81/typebox#Compiler)
+
+## User defined formats for strings
+
+To properly add user defined formats using `TypeBoxValidatorCompiler`, you should use `Format` module from `fastify-type-provider-typebox` instead of your TypeBox package's one.
+
+```ts
+import { TypeBoxTypeProvider, TypeBoxValidatorCompiler, Format } from '@fastify/type-provider-typebox'
+import { Type } from '@sinclair/typebox'
+import Fastify from 'fastify'
+
+Format.Set('numeric', (value) => !isNaN(parseInt(value, 10)))
+
+const fastify = Fastify().setValidatorCompiler(TypeBoxValidatorCompiler)
+
+fastify.withTypeProvider<TypeBoxTypeProvider>().get('/', {
+  schema: {
+    querystring: Type.Object({
+      x: Type.String({
+        format: 'numeric'
+      })
+    })
+  }
+}, (req) => {
+  const { x, y, z } = req.query
+})
+```
+
+For complete API of `Format` module, please refer to the TypeBox documentation located [here](https://github.com/sinclairzx81/typebox#formats)
